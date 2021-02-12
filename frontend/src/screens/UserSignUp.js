@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 const USignUpScreen = () => {
+    const history = useHistory()
     const [name, setName] = useState("");
     const [email, setemail] = useState("");
     const [password, setPassword] = useState("");
@@ -24,7 +25,7 @@ const USignUpScreen = () => {
                 console.log(data)
                 if (data.error) {
                 } else {
-                    // history.push('/')
+                    history.push('/user/signin')
                 }
             })
             .catch((err) => console.log(err))
@@ -34,7 +35,7 @@ const USignUpScreen = () => {
             <div className="container" style={{ backgroundColor: 'whitesmoke', width: '50vw', marginTop: '40vh' }}>
                 <h2>Register as a User</h2>
                 <form>
-                <div className="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="InputName" className="form-label">Name</label>
                         <input onChange={(e) => {
                             setName(e.target.value)
@@ -58,7 +59,7 @@ const USignUpScreen = () => {
                             setPhoneNo(e.target.value)
                         }} type="number" className="form-control" id="InputPhoneNo" />
                     </div>
-                    <button onClick={(e)=>{
+                    <button onClick={(e) => {
                         e.preventDefault();
                         PostData()
                     }} type="submit" className="btn btn-primary">Submit</button><br />

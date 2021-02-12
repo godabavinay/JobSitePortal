@@ -3,7 +3,7 @@ const { JWT_SECRET_KEY } = require('../config/keys')
 const mongoose = require('mongoose')
 
 module.exports = (req, res, next) => {
-    // console.log(req)
+    console.log(req)
     const { auth } = req.headers
 
     if (!auth) {
@@ -22,7 +22,6 @@ module.exports = (req, res, next) => {
         const recruiterModel = mongoose.model('recruiter')
 
         recruiterModel.findById(_id).then((recruiterData) => {
-            // console.log(recruiterData)
             req.recruiter = recruiterData
             next()
         }).catch((error) => res.status(422).json({ error }))

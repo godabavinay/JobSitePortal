@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 module.exports = (req, res, next) => {
     const { auth } = req.headers
-
+    
     if (!auth) {
         return res.status(401).json({
             error: 'authentication failed'

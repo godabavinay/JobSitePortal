@@ -84,7 +84,7 @@ router.post('/user/signIn', (req, res) => {
     console.log(req.body)
 
     userModel.findOne({ email }).then((savedUser) => {
-        // console.log(savedUser)
+        console.log(savedUser)
         if (!savedUser) {
             return res.status(422).json({
                 error: "Invalid email or password"
@@ -96,19 +96,23 @@ router.post('/user/signIn', (req, res) => {
                 error: "Invalid email or password"
             })
         }
-        // console.log('test')
+        console.log('test')
         const token = jwt.sign({
             _id: savedUser._id
         }, JWT_SECRET_KEY)
-        // console.log('test passed')
 
-        const { _id, name, email } = savedUser
+        const { _id, name,
+            contact,
+            appliedTo } = savedUser
 
         res.status(200).json({
             message: "user authentication",
             token,
             user: {
-                _id, name, email
+                _id,
+                name,
+                contact,
+                appliedTo
             }
         })
 
@@ -141,13 +145,23 @@ router.post('/recruiter/signIn', (req, res) => {
             _id: savedRecruiter._id
         }, JWT_SECRET_KEY)
 
-        const { _id, name, email } = savedRecruiter
+        const { name,
+            password,
+            contact,
+            company,
+            designation,
+            jobsPosted } = savedRecruiter
 
         res.status(200).json({
             message: "recruiter authentication",
             token,
             recruiter: {
-                _id, name, email
+                _id: savedRecruiter._id,
+                name,
+                contact,
+                company,
+                designation,
+                jobsPosted
             }
         })
     }).catch((error) => {

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 const fetch = require('node-fetch')
 const USignInScreen = () => {
+    const history = useHistory()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const postData = () => {
@@ -26,6 +27,7 @@ const USignInScreen = () => {
                     console.log(data)
                     localStorage.setItem("jwt", data.token)
                     localStorage.setItem("user", JSON.stringify(data.user))
+                    history.push('/alljobs')
                 }
             })
             .catch((err) => console.log(err))
@@ -48,7 +50,7 @@ const USignInScreen = () => {
                             setPassword(e.target.value)
                         }} type="password" className="form-control" id="InputPassword" />
                     </div>
-                    <button onClick={(e) => {  e.preventDefault(); postData() }} type="submit" name="action" className="btn btn-primary">Submit</button><br />
+                    <button onClick={(e) => { e.preventDefault(); postData() }} type="submit" name="action" className="btn btn-primary">Submit</button><br />
                     <Link to="/user/signup">Dont have an account</Link>
                 </form>
             </div>

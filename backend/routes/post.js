@@ -23,7 +23,7 @@ router.get('/showjobs', (req, res) => {
 router.put('/recruiter/createJob', recruiterReqLogin, (req, res) => {
     const { jobRole, jobDescription } = req.body
 
-    // console.log('test')
+    console.log('test')
 
     const job = new jobModel({
         jobRole, jobDescription, postedBy: req.recruiter._id
@@ -32,7 +32,7 @@ router.put('/recruiter/createJob', recruiterReqLogin, (req, res) => {
     job.save().then((_) => {
         // res.json({ _ })
         // console.log(_)
-        recruiterModel.findOneAndUpdate({_id: req.recruiter._id}, {
+        recruiterModel.findOneAndUpdate({ _id: req.recruiter._id }, {
             $push: { jobsPosted: { jobData: _._id } }
         }).exec((error, result) => {
             // console.log(result)
@@ -54,8 +54,8 @@ router.put('/recruiter/createJob', recruiterReqLogin, (req, res) => {
 router.put('/user/apply', userReqLogin, (req, res) => {
     const { jobId } = req.body
 
-    userModel.findOneAndUpdate({_id: req.user._id}, {
-        $push: { appliedTo: jobId }
+    userModel.findOneAndUpdate({ _id: req.user._id }, {
+        $addToSet: { appliedTo: jobId }
     }, {
         new: true
     }).exec((error, result) => {
@@ -64,8 +64,8 @@ router.put('/user/apply', userReqLogin, (req, res) => {
                 error: error
             })
 
-        jobModel.findOneAndUpdate(jobId, {
-            $push: { appliedList: req.user._id }
+        jobModel.findOneAndUpdate({ _id: jobId }, {
+            $addToSet: { appliedList: req.user._id }
         }, {
             new: true
         }).exec((error, result) => {
