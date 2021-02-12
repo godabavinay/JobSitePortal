@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const userModel = mongoose.model('user')
 const recruiterModel = mongoose.model('recruiter')
 
+const jwt = require('jsonwebtoken')
+const { JWT_SECRET_KEY } = require('../config/keys')
+
 const router = express.Router()
 
 // User singUp
@@ -30,7 +33,7 @@ router.post('/user/signUp', (req, res) => {
                 error: "user not created"
             })
         })
-    
+
     }).catch((error) => {
         res.status(422).json({
             error: error
@@ -66,7 +69,7 @@ router.post('/recruiter/signUp', (req, res) => {
                 error: "recruiter not created"
             })
         })
-    
+
     }).catch((error) => {
         res.status(422).json({
             error: error
@@ -81,23 +84,36 @@ router.post('/user/signIn', (req, res) => {
     // console.log(req.body)
 
     userModel.findOne({ email }).then((savedUser) => {
+        // console.log(savedUser)
         if (!savedUser) {
             return res.status(422).json({
                 error: "Invalid email or password"
             })
         }
-        
+
         if (savedUser.password != password) {
             return res.status(422).json({
                 error: "Invalid email or password"
             })
         }
+        // console.log('test')
+        const token = jwt.sign({
+            _id: savedUser._id
+        }, JWT_SECRET_KEY)
+        // console.log('test passed')
+
+        const { _id, name, email } = savedUser
 
         res.status(200).json({
-            message: "user authentication"
+            message: "user authentication",
+            token,
+            user: {
+                _id, name, email
+            }
         })
 
     }).catch((error) => {
+        // console.log('test failed')
         res.status(422).json({
             error: error
         })
@@ -114,12 +130,26 @@ router.post('/recruiter/signIn', (req, res) => {
                 error: "Invalid email or password"
             })
         }
-        
+
         if (savedRecruiter.password != password) {
             return res.status(422).json({
                 error: "Invalid email or password"
             })
         }
+
+        const token = jwt.sign({
+            _id: savedRecruiter._id
+        }, JWT_SECRET_KEY)
+
+        const { _id, name, email } = savedRecruiter
+
+        res.status(200).json({
+            message: "recruiter authentication",
+            token,
+            recruiter: {
+                _id, name, email
+            }
+        })
     }).catch((error) => {
         res.status(422).json({
             error: error

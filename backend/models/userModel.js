@@ -20,8 +20,8 @@ const userSchema = new mongoose.Schema({
     appliedTo: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'recruiter',
-            default: 'null'
+            ref: 'jobmodel',
+            // default: 'null'
         }
     ]
 })

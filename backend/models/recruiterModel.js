@@ -30,15 +30,8 @@ const recruiterSchema = new mongoose.Schema({
             jobData: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'jobmodel',
-                default: 'null'
-            },
-            appliedList: [
-                {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'user',
-                    default: 'null'
-                }
-            ]
+                // default: 'null'
+            }
         }
     ]
 })
