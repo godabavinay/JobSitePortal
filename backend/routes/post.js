@@ -11,7 +11,7 @@ const userReqLogin = require('../middlewares/userReqLogin')
 const recruiterReqLogin = require('../middlewares/recruiterReqLogin')
 
 // Get all Jobs
-router.get('/', (req, res) => {
+router.get('/showjobs', (req, res) => {
     jobModel.find().populate("postedBy", "_id name company").then((allJobs) => {
         res.json({ allJobs })
     }).catch((error) => {

@@ -81,7 +81,7 @@ router.post('/recruiter/signUp', (req, res) => {
 // User singIn
 router.post('/user/signIn', (req, res) => {
     const { email, password } = req.body
-    // console.log(req.body)
+    console.log(req.body)
 
     userModel.findOne({ email }).then((savedUser) => {
         // console.log(savedUser)
