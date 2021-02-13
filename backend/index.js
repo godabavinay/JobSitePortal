@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(require('./routes/auth'))
 app.use(require('./routes/post'))
 
-if (process.env.NODE_ENV === "production") {
+if (true || process.env.NODE_ENV === "production") {
     const __dirname = path.resolve()
     app.use(express.static(path.join(__dirname, '/frontend/build')))
 
