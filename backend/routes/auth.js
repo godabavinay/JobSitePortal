@@ -140,17 +140,17 @@ router.post('/recruiter/signIn', (req, res) => {
                 error: "Invalid email or password"
             })
         }
-
-        const token = jwt.sign({
-            _id: savedRecruiter._id
-        }, JWT_SECRET_KEY)
-
-        const { name,
-            password,
+        const { _id, name,
             contact,
             company,
             designation,
             jobsPosted } = savedRecruiter
+            
+        const token = jwt.sign({
+            _id
+        }, JWT_SECRET_KEY)
+
+
 
         res.status(200).json({
             message: "recruiter authentication",

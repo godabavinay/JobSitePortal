@@ -1,11 +1,22 @@
-import React, { useState, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
-import UserContext from '../components/App'
+import React, { useState, useContext, useEffect } from 'react'
+import { Redirect, useHistory } from 'react-router-dom'
+import { UserContext } from '../components/App'
 export const CreatePost = () => {
-    // const { state, dispatch } = useContext(UserContext)
+    const { state, dispatch } = useContext(UserContext)
     const history = useHistory()
     const [jobRole, setJobRole] = useState('')
     const [jobDescription, setjobDescription] = useState('')
+    useEffect(() => {
+        // const user = JSON.parse(localStorage.getItem("user"))
+        if (state) {
+            if (state === 'USER') {
+                history.push('/recruiter/signin')
+            } else if (state === 'RECRUITER') {
+                const recruiter = JSON.parse(localStorage.getItem("recruiter"))
+                dispatch({ type: "RECRUITER", payload: recruiter })
+            }
+        }
+    }, [])
     const PostData = () => {
         fetch('/recruiter/createJob', {
             method: "put",

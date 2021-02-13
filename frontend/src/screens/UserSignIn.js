@@ -1,10 +1,24 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+
+import { UserContext } from '../components/App'
 const fetch = require('node-fetch')
 const USignInScreen = () => {
     const history = useHistory()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const { state, dispatch } = useContext(UserContext)
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"))
+        const recruiter = JSON.parse(localStorage.getItem("recruiter"))
+        if (user || recruiter) {
+            if (user) {
+                dispatch({ type: "USER", payload: user })
+            } else if (recruiter) {
+                dispatch({ type: "RECRUITER", payload: recruiter })
+            }
+        }
+    }, [])
     const postData = () => {
         if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
             return
@@ -24,9 +38,10 @@ const USignInScreen = () => {
                 if (data.error) {
                     console.log(data.error)
                 } else {
-                    console.log(data)
+                    localStorage.clear();
                     localStorage.setItem("jwt", data.token)
                     localStorage.setItem("user", JSON.stringify(data.user))
+                    dispatch({ type: "USER", payload: data.user })
                     history.push('/alljobs')
                 }
             })

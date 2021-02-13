@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 const fetch = require('node-fetch');
 const RSignUpScreen = () => {
+    const history = useHistory()
     const [name, setName] = useState("");
     const [company, setCompany] = useState("");
     const [designation, setdesignation] = useState("");
@@ -27,14 +28,15 @@ const RSignUpScreen = () => {
                 console.log(data)
                 if (data.error) {
                 } else {
-                    // history.push('/recruiter/postJob')
+                    alert('Account Created')
+                    history.push('/recruiter/signin')
                 }
             })
             .catch((err) => console.log(err))
     }
     return (
         <>
-            <div className="container" style={{ backgroundColor: 'whitesmoke', width: '50vw', marginTop: '40vh' }}>
+            <div className="container" style={{ backgroundColor: 'whitesmoke', width: '50vw', marginTop: '10vh' }}>
                 <h2>Register as a Recruiter</h2>
                 <form>
                     <div className="mb-3">
@@ -73,7 +75,7 @@ const RSignUpScreen = () => {
                             setPhoneNo(e.target.value)
                         }} type="number" className="form-control" id="InputPhoneNo" />
                     </div>
-                    <button onClick={(e)=>{
+                    <button onClick={(e) => {
                         e.preventDefault();
                         PostData()
                     }} type="submit" className="btn btn-primary">Submit</button><br />

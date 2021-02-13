@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { UserContext } from '../components/App'
-import { useHistory } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 const fetch = require('node-fetch')
 const Showjobs = () => {
     const { state, dispatch } = useContext(UserContext)
@@ -8,6 +8,9 @@ const Showjobs = () => {
     const [data, setData] = useState()
     fetch("/showjobs").then(res => res.json()).then((res) => { setData(res); })
     const PostData = (jobId, jobRole, company) => {
+        if (!state) {
+            return history.push('/user/signup')
+        }
         fetch('/user/apply', {
             method: "put",
             headers: {
@@ -48,7 +51,7 @@ const Showjobs = () => {
                     </thead>
                     <tbody>
                         {data['allJobs'].map((i) => {
-                            if (i.appliedList.includes(state._id)) {
+                            if (i.appliedList.includes(state ? state._id : '123')) {
                                 return (
                                     <tr key={i._id} style={{ backgroundColor: 'green' }}>
                                         <th scope="col">{i.postedBy.company}</th>

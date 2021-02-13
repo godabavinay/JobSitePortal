@@ -25,6 +25,7 @@ const USignUpScreen = () => {
                 console.log(data)
                 if (data.error) {
                 } else {
+                    alert('Account Created')
                     history.push('/user/signin')
                 }
             })
@@ -32,7 +33,7 @@ const USignUpScreen = () => {
     }
     return (
         <>
-            <div className="container" style={{ backgroundColor: 'whitesmoke', width: '50vw', marginTop: '40vh' }}>
+            <div className="container" style={{ backgroundColor: 'whitesmoke', width: '50vw', marginTop: '10vh' }}>
                 <h2>Register as a User</h2>
                 <form>
                     <div className="mb-3">
